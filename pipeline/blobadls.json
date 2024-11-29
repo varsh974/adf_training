@@ -1,0 +1,72 @@
+{
+	"name": "blobadls",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_vadf_rawfiles",
+						"type": "DatasetReference",
+						"parameters": {
+							"input_jsonfile": {
+								"value": "@pipeline().parameters.input_json",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_vadatabricks_processeddata",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"parameters": {
+			"input_json": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "Day1"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-11-25T11:32:53Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

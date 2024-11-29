@@ -1,0 +1,27 @@
+{
+	"name": "Excel1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_vadf",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Day1"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "AdCru",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "3- Resultados CM -   ZP 2024.xlsx",
+				"container": "rawfiles"
+			},
+			"range": "B4",
+			"firstRowAsHeader": false,
+			"nullValue": "#"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

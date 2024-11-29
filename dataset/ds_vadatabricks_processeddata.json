@@ -1,0 +1,23 @@
+{
+	"name": "ds_vadatabricks_processeddata",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_vadatabricks1",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Day1"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "nov",
+				"fileSystem": "processeddata"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

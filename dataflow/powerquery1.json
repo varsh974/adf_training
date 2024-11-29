@@ -1,0 +1,20 @@
+{
+	"name": "powerquery1",
+	"properties": {
+		"type": "WranglingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"name": "ds_adlscsv",
+					"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> ds_adlscsv",
+					"dataset": {
+						"referenceName": "ds_adlscsv",
+						"type": "DatasetReference"
+					}
+				}
+			],
+			"script": "section Section1;\r\nshared ds_adlscsv = let AdfDoc = AzureStorage.DataLakeContents(\"https://vadatabricks1.dfs.core.windows.net/processeddata/csv/sales.csv\"),Csv = Csv.Document(AdfDoc, [Delimiter = \",\", Encoding = TextEncoding.Utf8, QuoteStyle = QuoteStyle.Csv]), PromotedHeaders = Table.PromoteHeaders(Csv, [PromoteAllScalars = true]) in  PromotedHeaders;\r\nshared UserQuery = let Source = #\"ds_adlscsv\",\r\n  #\"Filtered rows\" = Table.SelectRows(Source, each ([order_date] <> \"\")),\r\n  #\"Removed duplicates\" = Table.Distinct(#\"Filtered rows\") in #\"Removed duplicates\";\r\n",
+			"documentLocale": "en-us"
+		}
+	}
+}

@@ -1,0 +1,96 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_adlscsv",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_adlscsv",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "filter1"
+				},
+				{
+					"name": "aggregate1"
+				},
+				{
+					"name": "join1"
+				},
+				{
+					"name": "select1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          order_id as short,",
+				"          customer_id as short,",
+				"          transaction_id as short,",
+				"          product_id as short,",
+				"          quantity as short,",
+				"          discount_amount as double,",
+				"          total_amount as double,",
+				"          order_date as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 filter(!(isNull(order_id))) ~> filter1",
+				"filter1 aggregate(groupBy(order_id,",
+				"          transaction_id),",
+				"     customer_id = first(customer_id)) ~> aggregate1",
+				"aggregate1, source1 join(aggregate1@order_id == source1@order_id,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
+				"join1 select(mapColumn(",
+				"          order_id = aggregate1@order_id,",
+				"          transaction_id = aggregate1@transaction_id,",
+				"          customer_id = aggregate1@customer_id,",
+				"          order_id = source1@order_id,",
+				"          customer_id = source1@customer_id,",
+				"          transaction_id = source1@transaction_id,",
+				"          product_id,",
+				"          quantity,",
+				"          discount_amount,",
+				"          total_amount,",
+				"          order_date",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          order_id as string,",
+				"          customer_id as string,",
+				"          transaction_id as string,",
+				"          product_id as string,",
+				"          quantity as string,",
+				"          discount_amount as string,",
+				"          total_amount as string,",
+				"          order_date as string",
+				"     ),",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}

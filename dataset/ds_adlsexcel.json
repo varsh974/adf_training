@@ -1,0 +1,24 @@
+{
+	"name": "ds_adlsexcel",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_vadatabricks1",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Day1"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "sheet1",
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "nov",
+				"fileSystem": "processeddata"
+			}
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

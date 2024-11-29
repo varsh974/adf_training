@@ -1,0 +1,33 @@
+{
+	"name": "adbnotebook",
+	"properties": {
+		"activities": [
+			{
+				"name": "Notebook1",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Users/varshasalunke9741@gmail.com/michelin/Databricks_Training/Day1/Getting Started"
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricks1",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"folder": {
+			"name": "Day4"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-11-28T05:22:18Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
